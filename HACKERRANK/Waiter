@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <cmath>
+
+using namespace std;
+
+bool isPrime(int n) {
+    if (n <= 1) return false;
+    if (n <= 3) return true;
+    if (n % 2 == 0 || n % 3 == 0) return false;
+    for (int i = 5; i * i <= n; i = i + 6) {
+        if (n % i == 0 || n % (i + 2) == 0)
+            return false;
+    }
+    return true;
+}
+
+vector<int> waiter(vector<int> numbers, int q) {
+    vector<int> result;
+    stack<int> a, b;
+    vector<int> primes;
+    int num = 2;
+    while (primes.size() < q) {
+        if (isPrime(num)) {
+            primes.push_back(num);
+        }
+        num++;
+    }
+
+    for (int number : numbers) {
+        a.push(number);
+    }
+
+    for (int i = 0; i < q; ++i) {
+        stack<int> temp_a;
+        while (!a.empty()) {
+            int plate = a.top();
+            a.pop();
+            if (plate % primes[i] == 0) {
+                b.push(plate);
+            } else {
+                temp_a.push(plate);
+            }
+        }
+        while (!b.empty()) {
+            result.push_back(b.top());
+            b.pop();
+        }
+        a = temp_a;
+    }
+    while (!a.empty()) {
+        result.push_back(a.top());
+        a.pop();
+    }
+    return result;
+}
+
+int main() {
+    int n, q;
+    cin >> n >> q;
+    vector<int> numbers(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> numbers[i];
+    }
+    vector<int> result = waiter(numbers, q);
+    for (int num : result) {
+        cout << num << " ";
+    }
+    cout << endl;
+    return 0;
+}
