@@ -1,0 +1,35 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+using namespace std;
+
+
+bool isValidSerialization(string preorder) {
+    stringstream ss(preorder);
+    string node;
+    int slots = 1;
+
+    while (getline(ss, node, ',')) {
+        if (slots == 0) return false; e
+
+        if (node == "#") {
+            slots -= 1; 
+        } else {
+            slots -= 1; 
+            slots += 2;  
+        }
+    }
+
+    return slots == 0;
+}
+
+
+int main() {
+    string preorder1 = "9,3,4,#,#,1,#,#,2,#,6,#,#";
+    string preorder2 = "1,#";
+
+    cout << "Is \"" << preorder1 << "\" valid? " << (isValidSerialization(preorder1) ? "Yes" : "No") << endl;
+    cout << "Is \"" << preorder2 << "\" valid? " << (isValidSerialization(preorder2) ? "Yes" : "No") << endl;
+
+    return 0;
+}
