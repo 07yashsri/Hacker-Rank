@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+
+int leastInterval(vector<char>& tasks, int n) {
+    vector<int> freq(26, 0);
+    
+    for (char task : tasks)
+        freq[task - 'A']++;
+
+    sort(freq.begin(), freq.end());
+    int max_freq = freq[25] - 1;
+    int idle_slots = max_freq * n;
+
+    for (int i = 24; i >= 0 && freq[i] > 0; --i) {
+        idle_slots -= min(freq[i], max_freq);
+    }
+
+    return idle_slots > 0 ? tasks.size() + idle_slots : tasks.size();
+}
+
+// Example usage
+int main() {
+    vector<char> tasks = {'A', 'A', 'A', 'B', 'B', 'B'};
+    int n = 2;
+
+    int result = leastInterval(tasks, n);
+    cout << "Minimum time to finish all tasks: " << result << endl;
+
+    return 0;
+}
