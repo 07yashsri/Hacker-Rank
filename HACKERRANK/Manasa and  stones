@@ -1,0 +1,29 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <set>
+
+using namespace std;
+
+vector<int> stones(int n, int a, int b) {
+    set<int> results;
+    for (int i = 0; i < n; ++i) {
+        results.insert(a * (n - 1 - i) + b * i);
+    }
+    return vector<int>(results.begin(), results.end());
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, a, b;
+        cin >> n >> a >> b;
+        vector<int> result = stones(n, a, b);
+        for (int val : result) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
