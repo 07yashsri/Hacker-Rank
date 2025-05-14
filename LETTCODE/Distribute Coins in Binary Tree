@@ -1,0 +1,53 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// Definition for a binary tree node
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+// Helper function: post-order traversal to balance coins
+int dfs(TreeNode* node, int& moves) {
+    if (!node) return 0;
+
+    int left = dfs(node->left, moves);
+    int right = dfs(node->right, moves);
+
+    // Moves are incremented by the number of coins we need to send/receive
+    moves += abs(left) + abs(right);
+
+    // Return current node's net balance to parent
+    return node->val + left + right - 1;
+}
+
+// User-defined function to calculate moves
+int distributeCoins(TreeNode* root) {
+    int moves = 0;
+    dfs(root, moves);
+    return moves;
+}
+
+// Example usage
+int main() {
+    /*
+        Tree:
+             3
+            / \
+           0   0
+        Output: 2 (1 move to left, 1 move to right)
+    */
+
+    TreeNode* root = new TreeNode(3);
+    root->left = new TreeNode(0);
+    root->right = new TreeNode(0);
+
+    int result = distributeCoins(root);
+    cout << "Minimum number of moves required: " << result << endl;
+
+    return 0;
+}
